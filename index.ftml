@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naoya Matsuda | torchlight creation</title>
+  <meta name="description" content="Naoya Matsuda — Photo / Video grapher. torchlight creation" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ================================================================
+       CSS CUSTOM PROPERTIES ─ ここで色・フォント・サイズなどを一括管理
+       各変数の値を変更するだけでサイト全体に反映されます
+    ================================================================ */
+    :root {
+      /* ── カラーパレット ─────────────── */
+      --c-black:    #000000;
+      --c-900:      #111111;
+      --c-800:      #1c1c1c;
+      --c-700:      #2e2e2e;
+      --c-600:      #444444;
+      --c-500:      #666666;
+      --c-400:      #888888;
+      --c-300:      #aaaaaa;
+      --c-200:      #cccccc;
+      --c-100:      #e6e6e6;
+      --c-50:       #f4f4f4;
+      --c-white:    #ffffff;
+
+      /* ── タイポグラフィ ──────────────── */
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Barlow', sans-serif;
+
+      /* ── フォントサイズ ──────────────── */
+      --fs-xs:    0.6875rem;   /* 11px */
+      --fs-sm:    0.8125rem;   /* 13px */
+      --fs-base:  1rem;        /* 16px */
+      --fs-md:    1.125rem;    /* 18px */
+      --fs-lg:    1.5rem;      /* 24px */
+      --fs-xl:    2rem;        /* 32px */
+      --fs-2xl:   3rem;        /* 48px */
+      --fs-3xl:   4.5rem;      /* 72px */
+      --fs-hero:  clamp(5.5rem, 13vw, 12rem); /* レスポンシブなヒーロー文字サイズ */
+
+      /* ── スペーシング ────────────────── */
+      --section-pad:  clamp(4.5rem, 10vw, 9rem);
+      --container-x:  clamp(1.25rem, 5vw, 4.5rem);
+      --nav-h:        3.75rem;
+
+      /* ── アニメーション ──────────────── */
+      --ease:       0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-slow:  0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ================================================================
+       RESET
+    ================================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: var(--font-body);
+      background: var(--c-white);
+      color: var(--c-black);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button { font-family: inherit; }
+
+    /* ================================================================
+       UTILITIES
+    ================================================================ */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 var(--container-x);
+    }
+
+    /* 小見出しラベル */
+    .label {
+      font-family: var(--font-body);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--c-400);
+    }
+
+    /* セクション大見出し */
+    .section-title {
+      font-family: var(--font-display);
+      font-size: var(--fs-3xl);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+
+    /* ================================================================
+       NAV
+    ================================================================ */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      height: var(--nav-h);
+      background: var(--c-white);
+      border-bottom: 1px solid var(--c-100);
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    /* ブランド名 */
+    .nav__brand {
+      font-family: var(--font-body);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-black);
+    }
+
+    /* メニューリスト */
+    .nav__list {
+      display: flex;
+      align-items: center;
+      gap: 2.25rem;
+    }
+    .nav__link {
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-400);
+      transition: color var(--ease);
+    }
+    .nav__link:hover { color: var(--c-black); }
+
+    /* お問い合わせボタン */
+    .nav__cta {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.55rem 1.4rem;
+      border: 1px solid var(--c-black);
+      transition: background var(--ease), color var(--ease);
+    }
+    .nav__cta:hover {
+      background: var(--c-black);
+      color: var(--c-white);
+    }
+
+    /* ハンバーガー（モバイル） */
+    .nav__toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav__toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--c-black);
+      transition: transform var(--ease), opacity var(--ease);
+    }
+
+    /* ================================================================
+       HERO
+    ================================================================ */
+    .hero {
+      padding-top: calc(var(--nav-h) + 3.5rem);
+      padding-bottom: 3.5rem;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1fr max-content;
+      align-items: end;
+      gap: 4rem;
+    }
+
+    /* 左カラム */
+    .hero__left { padding-bottom: 0.25rem; }
+    .hero__label { margin-bottom: 1.25rem; }
+    .hero__name {
+      font-family: var(--font-display);
+      font-size: var(--fs-hero);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+    }
+    .hero__role {
+      margin-top: 1.75rem;
+      font-size: var(--fs-xs);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--c-400);
+      font-weight: 500;
+    }
+
+    /* 右カラム（縦書き装飾テキスト） */
+    .hero__side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 0.25rem;
+    }
+    .hero__vert {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-300);
+    }
+    .hero__scroll-line {
+      width: 1px;
+      height: 64px;
+      background: linear-gradient(to bottom, var(--c-300), transparent);
+      animation: scrollDrop 2s ease-in-out infinite;
+    }
+    @keyframes scrollDrop {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* 下段インフォ */
+    .hero__footer {
+      margin-top: 5rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--c-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .hero__meta {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .hero__meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .hero__meta-key {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-black);
+    }
+    .hero__meta-val {
+      font-size: var(--fs-sm);
+      color: var(--c-500);
+      transition: color var(--ease);
+    }
+    .hero__meta-val:hover { color: var(--c-black); }
+    .hero__btns {
+      display: flex;
+      gap: 0.875rem;
+    }
+
+    /* ── ボタン ───────────────────── */
+    .btn {
+      display: inline-block;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.875rem;
+      border: 1px solid transparent;
+      transition: background var(--ease), color var(--ease), border-color var(--ease);
+      cursor: pointer;
+    }
+    .btn--fill {
+      background: var(--c-black);
+      color: var(--c-white);
+      border-color: var(--c-black);
+    }
+    .btn--fill:hover {
+      background: var(--c-white);
+      color: var(--c-black);
+    }
+    .btn--outline {
+      background: transparent;
+      color: var(--c-black);
+      border-color: var(--c-200);
+    }
+    .btn--outline:hover {
+      border-color: var(--c-black);
+    }
+
+    /* ================================================================
+       WORKS
+    ================================================================ */
+    .works {
+      padding: var(--section-pad) 0;
+      background: var(--c-50);
+    }
+    .works__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2.5rem;
+    }
+
+    /* フィルターボタン */
+    .filters {
+      display: flex;
+      gap: 0.625rem;
+    }
+    .filter {
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.1rem;
+      border: 1px solid var(--c-200);
+      background: transparent;
+      color: var(--c-400);
+      cursor: pointer;
+      transition: all var(--ease);
+    }
+    .filter.is-active, .filter:hover {
+      background: var(--c-black);
+      border-color: var(--c-black);
+      color: var(--c-white);
+    }
+
+    /* グリッド */
+    .works__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .work-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .work-card--wide { grid-column: span 2; }
+
+    /* 画像プレースホルダー ─ 実際の画像に置き換えてください */
+    .work-card__img {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c-100);
+      color: var(--c-300);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      aspect-ratio: 4/3;
+      transition: transform var(--ease-slow);
+    }
+    /* ★ 画像を使う場合は上記の.work-card__img を img タグに変えてください ★
+       例: <img src="your-photo.jpg" class="work-card__img" alt="タイトル" /> */
+    .work-card--wide .work-card__img { aspect-ratio: 16/9; }
+
+    /* ホバーオーバーレイ */
+    .work-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity var(--ease);
+    }
+    .work-card:hover .work-card__overlay { opacity: 1; }
+    .work-card:hover .work-card__img { transform: scale(1.04); }
+    .work-card__cat {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-300);
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+    .work-card__title {
+      font-family: var(--font-display);
+      font-size: var(--fs-lg);
+      font-weight: 700;
+      color: var(--c-white);
+    }
+
+    /* ================================================================
+       ABOUT
+    ================================================================ */
+    .about {
+      padding: var(--section-pad) 0;
+    }
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .about__heading {
+      font-family: var(--font-display);
+      font-size: var(--fs-3xl);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.025em;
+      margin-top: 1.25rem;
+    }
+    .about__text {
+      font-size: var(--fs-base);
+      line-height: 1.85;
+      color: var(--c-600);
+      margin-bottom: 1.5rem;
+    }
+
+    /* 実績数字 */
+    .about__stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--c-100);
+    }
+    .stat__num {
+      font-family: var(--font-display);
+      font-size: var(--fs-2xl);
+      font-weight: 800;
+      line-height: 1;
+    }
+    .stat__lbl {
+      font-size: var(--fs-xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-400);
+      font-weight: 500;
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+
+    /* ================================================================
+       SERVICES
+    ================================================================ */
+    .services {
+      padding: var(--section-pad) 0;
+      background: var(--c-black);
+      color: var(--c-white);
+    }
+    .services .label { color: var(--c-600); }
+    .services .section-title { color: var(--c-white); }
+
+    .services__list {
+      margin-top: 3.5rem;
+    }
+    .svc {
+      display: grid;
+      grid-template-columns: 3.5rem 1fr 2rem;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--c-800);
+      transition: padding-left var(--ease);
+      cursor: default;
+    }
+    .svc:first-child { border-top: 1px solid var(--c-800); }
+    .svc:hover { padding-left: 0.5rem; }
+    .svc__num {
+      font-family: var(--font-display);
+      font-size: var(--fs-xs);
+      font-weight: 400;
+      color: var(--c-600);
+      letter-spacing: 0.1em;
+    }
+    .svc__name {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .svc__arrow {
+      font-size: var(--fs-md);
+      color: var(--c-600);
+      transition: color var(--ease), transform var(--ease);
+    }
+    .svc:hover .svc__arrow {
+      color: var(--c-white);
+      transform: translateX(4px);
+    }
+
+    /* ================================================================
+       CONTACT
+    ================================================================ */
+    .contact {
+      padding: var(--section-pad) 0;
+    }
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact__heading {
+      font-family: var(--font-display);
+      font-size: var(--fs-3xl);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.025em;
+      margin-top: 1.25rem;
+      margin-bottom: 3rem;
+    }
+    .contact__info-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact__info-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .contact__info-key {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-400);
+    }
+    .contact__info-val {
+      font-size: var(--fs-sm);
+      color: var(--c-black);
+      transition: color var(--ease);
+    }
+    .contact__info-val:hover { color: var(--c-400); }
+
+    /* ── フォーム ─────────────────── */
+    /* 
+     * フォーム送信先: action="mailto:naoyamatsuda1992@gmail.com"
+     * メールクライアントが起動します。
+     * サーバー不要のシンプルな実装です。
+     *
+     * より高機能にしたい場合は Formspree (https://formspree.io) などの
+     * フォームサービスを利用し、action を差し替えてください。
+     */
+    .form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-label {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-500);
+    }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      color: var(--c-black);
+      background: var(--c-50);
+      border: 1px solid var(--c-100);
+      border-radius: 0;
+      padding: 0.875rem 1rem;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color var(--ease), background var(--ease);
+      width: 100%;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--c-300); }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--c-black);
+      background: var(--c-white);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 140px;
+      line-height: 1.7;
+    }
+    /* セレクト矢印 */
+    .form-select-wrap { position: relative; }
+    .form-select-wrap::after {
+      content: '↓';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--c-400);
+      font-size: var(--fs-xs);
+      pointer-events: none;
+    }
+    .form-submit {
+      width: 100%;
+      padding: 1rem 2rem;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      background: var(--c-black);
+      color: var(--c-white);
+      border: 1px solid var(--c-black);
+      cursor: pointer;
+      transition: background var(--ease), color var(--ease);
+      margin-top: 0.5rem;
+    }
+    .form-submit:hover {
+      background: var(--c-white);
+      color: var(--c-black);
+    }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .footer {
+      padding: 2.25rem 0;
+      background: var(--c-black);
+      color: var(--c-white);
+    }
+    .footer__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer__brand {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    .footer__copy {
+      font-size: var(--fs-xs);
+      color: var(--c-600);
+      letter-spacing: 0.1em;
+    }
+    .footer__nav {
+      display: flex;
+      gap: 2rem;
+    }
+    .footer__nav a {
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-500);
+      transition: color var(--ease);
+    }
+    .footer__nav a:hover { color: var(--c-white); }
+
+    /* ================================================================
+       SCROLL REVEAL ANIMATION
+    ================================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ヒーローは遅延アニメーション */
+    .hero__label { animation: fadeUp 0.6s 0.15s ease both; }
+    .hero__name   { animation: fadeUp 0.6s 0.25s ease both; }
+    .hero__role   { animation: fadeUp 0.6s 0.35s ease both; }
+    .hero__footer { animation: fadeUp 0.6s 0.45s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width: 1024px) {
+      .hero__grid   { grid-template-columns: 1fr; }
+      .hero__side   { display: none; }
+      .about__grid,
+      .contact__grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    @media (max-width: 768px) {
+      :root { --section-pad: 4.5rem; }
+
+      /* モバイルメニュー */
+      .nav__list {
+        display: none;
+        position: fixed;
+        inset: var(--nav-h) 0 0;
+        background: var(--c-white);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.25rem;
+        z-index: 199;
+      }
+      .nav__list.is-open { display: flex; }
+      .nav__link { font-size: var(--fs-base); }
+      .nav__toggle { display: flex; }
+
+      .hero__footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero__meta { flex-direction: column; gap: 1.25rem; }
+
+      .works__head { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .works__grid { grid-template-columns: 1fr; }
+      .work-card--wide { grid-column: span 1; }
+
+      .about__stats { grid-template-columns: repeat(2, 1fr); }
+
+      .svc { grid-template-columns: 3rem 1fr; }
+      .svc__arrow { display: none; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      .footer__inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================================
+       NAV
+  ================================================================ -->
+  <nav class="nav" role="navigation" aria-label="メインナビゲーション">
+    <div class="container">
+      <div class="nav__inner">
+
+        <a href="#" class="nav__brand">torchlight creation</a>
+
+        <ul class="nav__list" id="navList">
+          <li><a href="#works"    class="nav__link">Works</a></li>
+          <li><a href="#about"    class="nav__link">About</a></li>
+          <li><a href="#services" class="nav__link">Services</a></li>
+          <li><a href="#contact"  class="nav__cta">Contact</a></li>
+        </ul>
+
+        <button class="nav__toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- ================================================================
+       HERO
+  ================================================================ -->
+  <section class="hero" id="hero">
+    <div class="container">
+
+      <div class="hero__grid">
+        <div class="hero__left">
+          <!-- ★ ラベルテキスト変更可 -->
+          <p class="label hero__label">Photo / Video grapher</p>
+          <!-- ★ 名前変更可 -->
+          <h1 class="hero__name">Naoya<br>Matsuda</h1>
+          <!-- ★ サブテキスト変更可 -->
+          <p class="hero__role">Based in Japan &nbsp;/&nbsp; Available Worldwide</p>
+        </div>
+
+        <div class="hero__side" aria-hidden="true">
+          <span class="hero__vert">torchlight creation — naoyamatsuda1992@gmail.com</span>
+          <div class="hero__scroll-line"></div>
+          <span class="label">Scroll</span>
+        </div>
+      </div>
+
+      <div class="hero__footer">
+        <div class="hero__meta">
+          <div class="hero__meta-item">
+            <span class="hero__meta-key">Tel</span>
+            <!-- ★ 電話番号変更可 -->
+            <a href="tel:090-1509-0526" class="hero__meta-val">090-1509-0526</a>
+          </div>
+          <div class="hero__meta-item">
+            <span class="hero__meta-key">Mail</span>
+            <!-- ★ メールアドレス変更可 -->
+            <a href="mailto:naoyamatsuda1992@gmail.com" class="hero__meta-val">naoyamatsuda1992@gmail.com</a>
+          </div>
+          <div class="hero__meta-item">
+            <span class="hero__meta-key">Brand</span>
+            <span class="hero__meta-val">torchlight creation</span>
+          </div>
+        </div>
+        <div class="hero__btns">
+          <a href="#works"   class="btn btn--fill">View Works</a>
+          <a href="#contact" class="btn btn--outline">Contact</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       WORKS
+       ★ 作品の追加方法:
+         1. .work-card の中の .work-card__img (div) を
+            <img src="your-photo.jpg" class="work-card__img" alt="作品タイトル"> に置き換える
+         2. .work-card--wide で横幅2カラムに
+         3. .work-card__title と .work-card__cat を編集
+  ================================================================ -->
+  <section class="works" id="works">
+    <div class="container">
+
+      <div class="works__head">
+        <div class="reveal">
+          <p class="label">Portfolio</p>
+          <h2 class="section-title">Works</h2>
+        </div>
+        <div class="filters reveal">
+          <button class="filter is-active" data-filter="all">All</button>
+          <button class="filter" data-filter="photo">Photo</button>
+          <button class="filter" data-filter="video">Video</button>
+        </div>
+      </div>
+
+      <div class="works__grid">
+
+        <div class="work-card work-card--wide" data-cat="photo">
+          <!-- ↓ ここを <img src="..." class="work-card__img" alt="..."> に変更 -->
+          <div class="work-card__img">Photo 01 — 画像をここに</div>
+          <div class="work-card__overlay">
+            <span class="work-card__cat">Photography</span>
+            <span class="work-card__title">Work Title 01</span>
+          </div>
+        </div>
+
+        <div class="work-card" data-cat="photo">
+          <div class="work-card__img">Photo 02</div>
+          <div class="work-card__overlay">
+            <span class="work-card__cat">Photography</span>
+            <span class="work-card__title">Work Title 02</span>
+          </div>
+        </div>
+
+        <div class="work-card" data-cat="video">
+          <div class="work-card__img">Video 01</div>
+          <div class="work-card__overlay">
+            <span class="work-card__cat">Video</span>
+            <span class="work-card__title">Work Title 03</span>
+          </div>
+        </div>
+
+        <div class="work-card" data-cat="photo">
+          <div class="work-card__img">Photo 03</div>
+          <div class="work-card__overlay">
+            <span class="work-card__cat">Photography</span>
+            <span class="work-card__title">Work Title 04</span>
+          </div>
+        </div>
+
+        <div class="work-card work-card--wide" data-cat="video">
+          <div class="work-card__img">Video 02 — 画像をここに</div>
+          <div class="work-card__overlay">
+            <span class="work-card__cat">Video</span>
+            <span class="work-card__title">Work Title 05</span>
+          </div>
+        </div>
+
+        <div class="work-card" data-cat="photo">
+          <div class="work-card__img">Photo 04</div>
+          <div class="work-card__overlay">
+            <span class="work-card__cat">Photography</span>
+            <span class="work-card__title">Work Title 06</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       ABOUT
+       ★ プロフィールテキストや数字は自由に編集してください
+  ================================================================ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about__grid">
+
+        <div class="reveal">
+          <p class="label">About</p>
+          <!-- ★ 見出しの名前変更可 -->
+          <h2 class="about__heading">Naoya<br>Matsuda</h2>
+        </div>
+
+        <div class="reveal">
+          <!-- ★ プロフィールテキストを自由に書き換えてください -->
+          <p class="about__text">
+            torchlight creation 主宰。写真・映像作家として、商業撮影から映像制作まで幅広く活動。
+            光と影が生み出す瞬間に注目し、被写体の本質を切り取るビジュアルを追求しています。
+          </p>
+          <p class="about__text">
+            ポートレート、商品撮影、ミュージックビデオ、ドキュメンタリーなど多岐にわたる分野で実績多数。
+            「torchlight（松明の光）」という屋号に込めた思いのように、被写体の核心に光を当てることを信条とします。
+          </p>
+
+          <!-- ★ 数字・ラベルを自由に変更してください -->
+          <div class="about__stats">
+            <div>
+              <div class="stat__num">8+</div>
+              <div class="stat__lbl">Years<br>Experience</div>
+            </div>
+            <div>
+              <div class="stat__num">200+</div>
+              <div class="stat__lbl">Projects<br>Completed</div>
+            </div>
+            <div>
+              <div class="stat__num">50+</div>
+              <div class="stat__lbl">Clients<br>Served</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SERVICES
+       ★ 項目の追加・削除・テキスト変更が可能です
+  ================================================================ -->
+  <section class="services" id="services">
+    <div class="container">
+      <p class="label reveal">What I Do</p>
+      <h2 class="section-title reveal">Services</h2>
+
+      <div class="services__list">
+        <!-- ★ 各 .svc を自由に追加・削除・編集 -->
+        <div class="svc reveal">
+          <span class="svc__num">01</span>
+          <span class="svc__name">Photography</span>
+          <span class="svc__arrow">→</span>
+        </div>
+        <div class="svc reveal">
+          <span class="svc__num">02</span>
+          <span class="svc__name">Videography</span>
+          <span class="svc__arrow">→</span>
+        </div>
+        <div class="svc reveal">
+          <span class="svc__num">03</span>
+          <span class="svc__name">Portrait / People</span>
+          <span class="svc__arrow">→</span>
+        </div>
+        <div class="svc reveal">
+          <span class="svc__num">04</span>
+          <span class="svc__name">Commercial / Product</span>
+          <span class="svc__arrow">→</span>
+        </div>
+        <div class="svc reveal">
+          <span class="svc__num">05</span>
+          <span class="svc__name">Music Video</span>
+          <span class="svc__arrow">→</span>
+        </div>
+        <div class="svc reveal">
+          <span class="svc__num">06</span>
+          <span class="svc__name">Event Documentation</span>
+          <span class="svc__arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       CONTACT
+       ★ フォームの送信先: action="mailto:naoyamatsuda1992@gmail.com"
+         メールクライアントが起動します（サーバー不要）。
+         Formspree 等を使う場合は action を "https://formspree.io/f/xxxx" に変更してください。
+  ================================================================ -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact__grid">
+
+        <!-- 左: タイトルと連絡先 -->
+        <div class="reveal">
+          <p class="label">Get in Touch</p>
+          <!-- ★ 見出しテキスト変更可 -->
+          <h2 class="contact__heading">Let's<br>Work<br>Together</h2>
+
+          <div class="contact__info-list">
+            <div class="contact__info-item">
+              <span class="contact__info-key">Email</span>
+              <!-- ★ メールアドレス変更可 -->
+              <a href="mailto:naoyamatsuda1992@gmail.com" class="contact__info-val">
+                naoyamatsuda1992@gmail.com
+              </a>
+            </div>
+            <div class="contact__info-item">
+              <span class="contact__info-key">Phone</span>
+              <!-- ★ 電話番号変更可 -->
+              <a href="tel:090-1509-0526" class="contact__info-val">
+                090-1509-0526
+              </a>
+            </div>
+            <div class="contact__info-item">
+              <span class="contact__info-key">Brand</span>
+              <span class="contact__info-val">torchlight creation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右: お問い合わせフォーム -->
+        <div class="reveal">
+          <form
+            class="form"
+            action="mailto:naoyamatsuda1992@gmail.com"
+            method="post"
+            enctype="text/plain"
+          >
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="f-name">お名前 <span aria-hidden="true">*</span></label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="f-name"
+                  name="name"
+                  placeholder="山田 太郎"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="f-company">会社名 / 屋号</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  id="f-company"
+                  name="company"
+                  placeholder="Company Name"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="f-email">メールアドレス <span aria-hidden="true">*</span></label>
+              <input
+                class="form-input"
+                type="email"
+                id="f-email"
+                name="email"
+                placeholder="your@email.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="f-tel">電話番号</label>
+              <input
+                class="form-input"
+                type="tel"
+                id="f-tel"
+                name="tel"
+                placeholder="090-0000-0000"
+              />
+            </div>
+
+            <!-- ★ 依頼種別の選択肢を自由に追加・変更してください -->
+            <div class="form-group">
+              <label class="form-label" for="f-type">ご依頼の種類 <span aria-hidden="true">*</span></label>
+              <div class="form-select-wrap">
+                <select class="form-select" id="f-type" name="type" required>
+                  <option value="" disabled selected>選択してください</option>
+                  <option value="photo">Photography（写真撮影）</option>
+                  <option value="video">Videography（映像制作）</option>
+                  <option value="portrait">Portrait / People</option>
+                  <option value="commercial">Commercial / Product</option>
+                  <option value="mv">Music Video</option>
+                  <option value="event">Event Documentation</option>
+                  <option value="other">その他</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ★ 予算の目安（任意）変更可 -->
+            <div class="form-group">
+              <label class="form-label" for="f-budget">ご予算の目安（任意）</label>
+              <div class="form-select-wrap">
+                <select class="form-select" id="f-budget" name="budget">
+                  <option value="" disabled selected>選択してください</option>
+                  <option value="under50">〜 5万円</option>
+                  <option value="50to100">5万円 〜 10万円</option>
+                  <option value="100to300">10万円 〜 30万円</option>
+                  <option value="over300">30万円〜</option>
+                  <option value="discuss">要相談</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="f-msg">メッセージ <span aria-hidden="true">*</span></label>
+              <textarea
+                class="form-textarea"
+                id="f-msg"
+                name="message"
+                placeholder="撮影の概要、ご希望の日程・場所など、詳細をお聞かせください。"
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="form-submit">
+              Send Message &nbsp;→
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FOOTER
+  ================================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <!-- ★ フッターのブランド名・リンク変更可 -->
+        <span class="footer__brand">torchlight creation</span>
+        <span class="footer__copy">© 2026 Naoya Matsuda. All rights reserved.</span>
+        <nav class="footer__nav" aria-label="フッターナビ">
+          <a href="#works">Works</a>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================================================================
+       JAVASCRIPT
+  ================================================================ -->
+  <script>
+    /* ── モバイルメニュー ─────────────────── */
+    const toggle   = document.getElementById('navToggle');
+    const navList  = document.getElementById('navList');
+
+    toggle.addEventListener('click', () => {
+      const open = navList.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open);
+      // ★ ハンバーガー → バツ アニメーション
+      const spans = toggle.querySelectorAll('span');
+      if (open) {
+        spans[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+        spans[1].style.opacity   = '0';
+        spans[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+      } else {
+        spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+      }
+    });
+
+    // リンククリックでメニューを閉じる
+    document.querySelectorAll('.nav__link, .nav__cta').forEach(el => {
+      el.addEventListener('click', () => {
+        navList.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', false);
+        toggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+      });
+    });
+
+    /* ── ワークスフィルター ──────────────── */
+    document.querySelectorAll('.filter').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.filter').forEach(b => b.classList.remove('is-active'));
+        this.classList.add('is-active');
+        const f = this.dataset.filter;
+        document.querySelectorAll('.work-card').forEach(card => {
+          if (f === 'all' || card.dataset.cat === f) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    /* ── スクロールリビール ───────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target); // 一度だけ実行
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── ナビ背景（スクロール時） ─────────── */
+    window.addEventListener('scroll', () => {
+      document.querySelector('.nav').style.borderBottomColor =
+        window.scrollY > 10 ? 'var(--c-100)' : 'var(--c-100)';
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
